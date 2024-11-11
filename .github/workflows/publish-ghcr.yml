@@ -65,8 +65,8 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
   deploy-aca:
-      runs-on: ubuntu-latest
-      needs: build-and-push-image
-      steps:
-        - name: Deploy Azure Container App
-          uses: whichwit/canary-fork/.github/workflows/deploy-cdc.yml@main
+    runs-on: ubuntu-latest
+    needs: build-and-push-image
+    steps:
+      - name: Deploy Azure Container App
+        uses: whichwit/canary-fork/.github/workflows/deploy-cdc.yml@main
