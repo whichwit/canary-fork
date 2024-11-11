@@ -69,4 +69,4 @@ jobs:
       needs: build-and-push-image
       steps:
         - name: Deploy Azure Container App
-          uses: "${{ github.repository }}/.github/workflows/deploy-cdc.yml@main"
+          uses: ${{ env.IMAGE_NAME }}/.github/workflows/deploy-cdc.yml@main
