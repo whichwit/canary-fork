@@ -3,19 +3,7 @@ name: CDC Azure
 on:
   push:
     branches: [master]
-  release:
-    types: [published]
   workflow_dispatch:
-    inputs:
-      target_environment:
-        description: 'Target environment'
-        required: true
-        default: development
-        type: choice
-        options:
-          - production
-          - development
-
 
 permissions:
   contents: read
@@ -76,31 +64,3 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-  deploy-aca:
-      runs-on: ubuntu-latest
-      needs: build-and-push-image
-      environment: ${{ inputs.target_environment }}
-      steps:
-      - name: Azure login
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Deploy container
-        uses: azure/container-apps-deploy-action@v2
-        with:
-          registryUrl: ${{ env.REGISTRY }}
-          imageToDeploy: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge
-          containerAppName: ${{ vars.ACA_NAME }}
-          resourceGroup: ${{ vars.ACA_RESOURCE_GROUP }}
-          containerAppEnvironment: ${{ vars.ACA_APP_ENVIRONMENT }}
-          disableTelemetry: true
-      - name: Update revision
-        uses: azure/CLI@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az containerapp update \
-            --name ${{ vars.ACA_NAME }} \
-            --resource-group ${{ vars.ACA_RESOURCE_GROUP }} \
-            --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:edge \
-            --revision-suffix gha-${{ github.run_id }}-${{ github.run_attempt }}
