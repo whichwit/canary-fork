@@ -64,3 +64,8 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+  deploy-aca:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Deploy Azure Container App
+        uses: .github/workflows/deploy-cdc.yml
