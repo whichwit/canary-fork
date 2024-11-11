@@ -1,8 +1,8 @@
-name: CDC Azure
+name: Deploy to CDC Azure as Container App
 
 on:
   registry_package:
-    types: [published]
+    types: [published, updated]
   workflow_dispatch:
     inputs:
       target_environment:
@@ -13,6 +13,13 @@ on:
         options:
           - production
           - development
+
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
