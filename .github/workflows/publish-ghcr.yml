@@ -68,4 +68,4 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - name: Deploy Azure Container App
-        uses: .github/workflows/deploy-cdc.yml
+        uses: ${{ github.repository}}/.github/workflows/deploy-cdc.yml
