@@ -67,4 +67,4 @@ jobs:
   deploy-aca:
     runs-on: ubuntu-latest
     needs: build-and-push-image
-    uses: ./.github/workflows/deploy-cdc.yml@main
+    uses: ./.github/workflows/deploy-cdc.yml
